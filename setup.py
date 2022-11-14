@@ -1,7 +1,11 @@
-from flask import Flask
+from setuptools import find_packages, setup
 
-app = Flask(__name__)
-
-@app.route('/')
-def hello():
-    return 'Holitas de Mar.'
+setup(
+    name='flaskr',
+    version='1.0.0',
+    packages=find_packages(),
+    include_package_data=True,
+    install_requires = [
+        'flask',
+    ]
+)

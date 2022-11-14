@@ -1,4 +1,5 @@
 import functools
+import sys
 
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
@@ -31,6 +32,7 @@ def register():
                     (username, generate_password_hash(password)),
                 )
                 db.commit()
+                print('Se ha registrado correctamente!', file=sys.stderr)
             except db.IntegrityError:
                 error = f"User {username} is already registered."
             else:
@@ -61,6 +63,8 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = user['id']
+            
+            print('Se ha iniciado session correctamente!', file=sys.stderr)
             return redirect(url_for('index'))
 
         flash(error)
@@ -81,7 +85,9 @@ def load_logged_in_user():
 
 @bp.route('/logout')
 def logout():
+    print(f"Se ha cerrado la session: {g.user['username']}", file= sys.stderr)
     session.clear()
+    
     return redirect(url_for('index'))
 
 
